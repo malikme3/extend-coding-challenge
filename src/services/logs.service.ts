@@ -1,15 +1,15 @@
 import { LogLevel } from "../enums/common.enums";
 
-/**
- * This is equivalent to:
- * type LogLevelStrings = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
- */
+// for custom logging
 type LogLevelStrings = keyof typeof LogLevel;
-
-function printImportant(key: LogLevelStrings, message: string) {
-  const num = LogLevel[key];
-  if (num <= LogLevel.warn) {
-    console.log("Log level message is:", message);
+export class LogsService {
+  /**
+   * type LogLevelStrings = 'error' | 'warn' | 'info' | 'debug';
+   */
+  static log(key: LogLevelStrings, message: string) {
+    const logLevel = LogLevel[key]; // error = 0, warn = 1, info = 2, debug = 3
+    if (logLevel <= LogLevel.warn) {
+      console[key](message);
+    }
   }
 }
-printImportant("error", "This is a message");

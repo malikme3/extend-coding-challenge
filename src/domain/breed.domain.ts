@@ -2,21 +2,22 @@ export interface ParamStore {
   [key: string]: string;
 }
 
-export interface Response {
-  statusCode: number;
-}
+// export interface Response {
+//   statusCode: number;
+// }
 
-export interface BreedsMessage {
+export interface BreedsList {
   [key: string]: string[];
 }
 
 export interface BreedsResponse {
-  message: BreedsMessage;
+  message: BreedsList;
   status: string;
+  code?: number;
 }
 
 export interface GetBreedsResponse {
   statusCode: number;
-  body?: string[];
+  body: string[];
   message?: string;
 }
