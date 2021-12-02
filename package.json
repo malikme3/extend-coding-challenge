@@ -26,7 +26,7 @@
     "lint": "eslint --ext=.ts src",
     "test": "jest",
     "test:lambda": "yarn build && lambda-local -l ./dist/index.js -e ./dist/mock-events/default -h randomGet",
-    "test:lambda-sh": "yarn build && lambda-local -l ./dist/lambdas/index.js -e ./dist/lambdas/mock-events/default -h breedsGet"
+    "invoke-local-breedsGet": "yarn build && lambda-local -l ./dist/lambdas/index.js -e ./dist/lambdas/mock-events/default -h breedsGet"
   },
   "version": "1.0.0",
   "devDependencies": {

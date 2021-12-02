@@ -1,24 +1,30 @@
 import { ParamStore } from "../domain/breed.domain";
+// import * as a from "../../configs/dev.config.json";
+import * as fs from "fs";
+import * as path from "path";
 export class InitService {
-  paramStore: ParamStore = {};
+  static instance: InitService;
+  static paramStore: ParamStore = {};
 
-  constructor() {
-    this.getSsmParams();
-  }
-  //function to get ssm params to load in App Param configs
-  getSsmParams(): void {
-    // get params from SSM param store
-    this.paramStore = mockParams;
-    console.log("params from ssm");
+  private constructor() {
+    const stage = process.env.stage || "dev";
+    InitService.paramStore = JSON.parse(
+      fs.readFileSync(
+        path.resolve(__dirname, `../../configs/${stage}.config.json`),
+        "utf8"
+      )
+    );
   }
 
+  public static getInstance(): InitService {
+    if (!InitService.instance) {
+      InitService.instance = new InitService();
+    }
+    return InitService.instance;
+  }
+
+  // function to get from secret manager to load in configs
   getParams(key: string): string {
-    return this.paramStore[key];
+    return InitService.paramStore[key];
   }
 }
-
-const mockParams = {
-  BREED_HOST: "https://dog.ceo/",
-  BREED_USERNAME: "admin",
-  BREED_PASSWORD: "xyshd",
-};
