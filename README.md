@@ -50,7 +50,7 @@ Follow these steps to create a new API endpoint in this codebase:
 
 - in `src/lambdas`, add a new `handler` module, in a file called something like `breeds-get.ts`, along with a `breeds-get.test.ts`.
 
-- use [`node-fetch`](https://github.com/node-fetch/node-fetch) (already installed) to pull from the [dogs-list endpoint](https://dog.ceo/api/breeds/list/all). 
+- use [`node-fetch`](https://github.com/node-fetch/node-fetch) (already installed) to pull from the [dogs-list endpoint](https://dog.ceo/api/breeds/list/all).
 
 - organize the files and directory structure in a way that could scale if the codebase were to grow.
 
@@ -69,3 +69,34 @@ Follow these steps to create a new API endpoint in this codebase:
 - before the next interview, we will provide PR feedback, to give you a chance to improve your solution before the call.
 
 - feel free to ask questions, as we want to simulate working with the team.
+
+## code structure
+
+dist
+configs
+src
+├── controllers
+│ └── breeds.controller.ts
+├── domain
+│ └── breed.domain.ts
+├── enums
+│ └── common.enums.ts
+├── handlers
+│ └── breeds.handler.ts
+├── lambdas
+│ ├── index.ts
+│ ├── mock-events
+│ │ └── default.ts
+│ ├── random-get.test.ts
+│ ├── random-get.ts
+│ └── types.ts
+├── services
+│ ├── breeds.service.ts
+│ ├── errors.service.ts
+│ ├── init.service.ts
+│ └── logs.service.ts
+├── tests
+│ └── handlers
+│ ├── breeds-get.test.ts
+└── utils
+└── breeds.utils.ts

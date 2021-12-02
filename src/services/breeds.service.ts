@@ -19,7 +19,11 @@ export class BreedsService {
     LogsService.log("info", `api url: ${url}`);
     //TODO: HTTPResponseError for error handling
     const apiResp = await fetch(url, { timeout: 3000 });
-    const { status, code, message }: BreedsApiResponse = await apiResp.json();
+    const {
+      status,
+      code,
+      message = {},
+    }: BreedsApiResponse = await apiResp?.json();
     if (!!status && status !== "success") {
       const errorMsg = `Error while getting breeds with status:${status}, code:${code}, message:${message}`;
       throw new Error(errorMsg);
