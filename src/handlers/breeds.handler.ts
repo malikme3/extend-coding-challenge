@@ -2,7 +2,7 @@ import { Context, Handler } from "aws-lambda/handler";
 import { BreedsController } from "../controllers/breeds.controller";
 import { Breeds, GetBreedsResponse } from "../domain/breed.domain";
 import { LogsService } from "../services/logs.service";
-import { CommonUtils } from "../utils/ breeds.utils";
+import { CommonUtils } from "../utils/breeds.utils";
 
 const getBreedsHandler: Handler = async (
   event: any,
