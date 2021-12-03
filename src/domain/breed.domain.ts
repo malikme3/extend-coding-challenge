@@ -1,17 +1,22 @@
-// response for front-end client
-export interface BreedsResponse {
+interface Response {
+  message: string | Message
+  status: 'success' | 'failed'
+}
+export interface ErrorResponse extends Response {
   statusCode: number
-  body: Breeds | string
-  message?: string
 }
 
 // response from external API package
-export interface BreedsApiResponse {
-  message: string | Message
-  status: string
+export interface BreedsApiResponse extends Response {
   code?: number
 }
 
+// response for front-end client
+export interface BreedsResponse {
+  statusCode: number
+  status: 'success' | 'failed'
+  body: Breeds | string
+}
 export interface Message {
   [key: string]: string[]
 }

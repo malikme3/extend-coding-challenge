@@ -1,24 +1,29 @@
+import { ErrorResponse } from '../domain/breed.domain'
+
 // custom error handling
-export class ErrorService {
-  static notFoundError(entity: string): Error {
-    const err: any = new Error()
-    err.statusCode = 404
-    err.message = `${entity} not found`
-    return err
+export class ErrorService extends Error {
+  static serverError(error: string): ErrorResponse {
+    return {
+      statusCode: 500,
+      message: `request failed due to ${error}`,
+      status: `failed`,
+    }
   }
 
-  static serverError(error: string): Error {
-    const err: any = new Error()
-    err.message = `request failed due to ${error}`
-    err.statusCode = 500
-    return err
+  static notFoundError(entity: string): ErrorResponse {
+    return {
+      statusCode: 404,
+      message: `${entity} not found`,
+      status: `failed`,
+    }
   }
 
-  static timeoutError(error: string): Error {
-    const err: any = new Error()
-    err.message = `request failed due to ${error}`
-    err.statusCode = 408
-    return err
+  static timeoutError(error: string): ErrorResponse {
+    return {
+      statusCode: 408,
+      message: `request failed due to ${error}`,
+      status: `failed`,
+    }
   }
 
   // TODO : additional errors

@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
+import * as context from 'aws-lambda-mock-context'
 import { getRandomBreedHandler } from '../../handlers/get-random-breed.handler'
-import context = require('aws-lambda-mock-context')
 
 jest.mock('node-fetch')
 const mockedFetch: jest.Mock = fetch as any

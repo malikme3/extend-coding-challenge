@@ -1,4 +1,4 @@
-import { Breeds, BreedsResponse } from '../domain/breed.domain'
+import { Breeds, BreedsResponse, ErrorResponse } from '../domain/breed.domain'
 import { BreedsService } from '../services/breeds.service'
 import { ErrorService } from '../services/errors.service'
 import { InitService } from '../services/init.service'
@@ -11,7 +11,7 @@ export class BreedsController {
   }
 
   // TODO: request params validation for requests
-  async getBreeds(): Promise<BreedsResponse | Error> {
+  async getBreeds(): Promise<BreedsResponse | ErrorResponse> {
     try {
       // API call to get breeds list
       const breedsResponse = await new BreedsService().getBreeds()
@@ -42,7 +42,7 @@ export class BreedsController {
     }
   }
 
-  async getRandomBreed(): Promise<BreedsResponse | Error> {
+  async getRandomBreed(): Promise<BreedsResponse | ErrorResponse> {
     try {
       // API call to get random breed
       const randomBreedsResponse = await new BreedsService().getRandomBreed()
@@ -67,7 +67,7 @@ export class BreedsController {
     return {
       statusCode: 200,
       body: breeds,
-      message: 'success',
+      status: 'success',
     }
   }
 }

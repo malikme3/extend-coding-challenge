@@ -1,18 +1,18 @@
 import { APIGatewayEvent, Context, Handler } from 'aws-lambda'
 import { BreedsController } from '../controllers/breeds.controller'
-import { BreedsResponse } from '../domain/breed.domain'
+import { BreedsResponse, ErrorResponse } from '../domain/breed.domain'
 import { LogsService } from '../services/logs.service'
 import { CommonUtils } from '../utils/breeds.utils'
 
 const getBreedsHandler: Handler = async (
   event: APIGatewayEvent,
   context: Context,
-): Promise<BreedsResponse | Error> => {
-  let getBreedsResponse: BreedsResponse | Error
+): Promise<BreedsResponse | ErrorResponse> => {
+  let getBreedsResponse: BreedsResponse | ErrorResponse
   // warning log statement if lambda timeout is with in  3 seconds
   const timer = CommonUtils.requestTimeWarning(context)
-
   LogsService.log('info', `request event: ${JSON.stringify(event)}`)
+
   try {
     // controller call
     getBreedsResponse = await new BreedsController().getBreeds()
@@ -23,7 +23,7 @@ const getBreedsHandler: Handler = async (
     getBreedsResponse = {
       statusCode: error.code || 500,
       body: error.message || error,
-      message: 'failed',
+      status: 'failed',
     }
   } finally {
     clearTimeout(timer)
