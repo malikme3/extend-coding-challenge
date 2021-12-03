@@ -1,6 +1,6 @@
 // index to exports for all lambdas
 // export { handler as randomGet } from './random-get'
-export {
-  getBreedsHandler as breedsGet,
-  getRandomBreedHandler as randomGet,
-} from '../handlers/breeds.handler'
+// GET Breeds handler
+export { getBreedsHandler as breedsGet } from '../handlers/get-breeds.handler'
+// GET random breed handler
+export { getRandomBreedHandler as randomGet } from '../handlers/get-random-breed.handler'

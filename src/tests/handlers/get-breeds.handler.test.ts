@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { getBreedsHandler, getRandomBreedHandler } from '../../handlers/breeds.handler'
+import { getBreedsHandler } from '../../handlers/get-breeds.handler'
 import { BreedsResponse } from '../../domain/breed.domain'
 import context = require('aws-lambda-mock-context')
 
@@ -68,21 +68,5 @@ describe('getBreedsHandler() lambda tests', () => {
     const { statusCode, message }: BreedsResponse = await await getBreedsHandler({}, ctx, {} as any)
     expect(statusCode).toBe(408)
     expect('request failed due to Error: timeout').toBe(message)
-  })
-})
-
-describe('random-get handler', () => {
-  const mockPayload = {}
-  beforeEach(() => {
-    mockedFetch.mockReturnValueOnce({
-      json: () => {
-        return mockPayload
-      },
-    })
-  })
-
-  it('returns payload from fetch request', async () => {
-    const response: any = await getRandomBreedHandler({} as any, ctx)
-    expect(response.statusCode).toBe(404)
   })
 })
