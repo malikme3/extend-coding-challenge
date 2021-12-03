@@ -1,37 +1,34 @@
-import { Context, Handler } from "aws-lambda/handler";
-import { BreedsController } from "../controllers/breeds.controller";
-import { GetBreedsResponse } from "../domain/breed.domain";
-import { LogsService } from "../services/logs.service";
-import { CommonUtils } from "../utils/breeds.utils";
+import { APIGatewayEvent, Context, Handler } from 'aws-lambda'
+import { BreedsController } from '../controllers/breeds.controller'
+import { GetBreedsResponse } from '../domain/breed.domain'
+import { LogsService } from '../services/logs.service'
+import { CommonUtils } from '../utils/breeds.utils'
 
 const getBreedsHandler: Handler = async (
-  event: any,
-  context: Context
+  event: APIGatewayEvent,
+  context: Context,
 ): Promise<GetBreedsResponse | Error> => {
-  let getBreedsResponse: GetBreedsResponse | Error;
+  let getBreedsResponse: GetBreedsResponse | Error
   // warning log statement if lambda timeout is with in  3 seconds
-  const timer = CommonUtils.requestTimeWarning(context);
+  const timer = CommonUtils.requestTimeWarning(context)
 
-  LogsService.log("info", `request event: ${JSON.stringify(event)}`);
+  LogsService.log('info', `request event: ${JSON.stringify(event)}`)
   try {
     // controller call
-    getBreedsResponse = await new BreedsController().getBreeds();
-    //TODO: response sanitization for sensitive data
-    LogsService.log(
-      "info",
-      `${context.functionName} resp: ${JSON.stringify(getBreedsResponse)}`
-    );
+    getBreedsResponse = await new BreedsController().getBreeds()
+    // TODO: response sanitization for sensitive data
+    LogsService.log('info', `${context.functionName} resp: ${JSON.stringify(getBreedsResponse)}`)
   } catch (error) {
-    LogsService.log("error", `api: ${context.functionName}, error:${error}`);
+    LogsService.log('error', `api: ${context.functionName}, error:${error}`)
     getBreedsResponse = {
       statusCode: error.code || 500,
       body: error.message || error,
-      message: "failed",
-    };
+      message: 'failed',
+    }
   } finally {
-    clearTimeout(timer);
+    clearTimeout(timer)
   }
-  return getBreedsResponse;
-};
+  return getBreedsResponse
+}
 
-export { getBreedsHandler };
+export { getBreedsHandler }
