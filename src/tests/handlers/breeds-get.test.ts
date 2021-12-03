@@ -7,7 +7,7 @@ const mockedFetch: jest.Mock = fetch as any;
 const ctx = context();
 jest.mock("node-fetch");
 
-xdescribe("getBreedsHandler() lambda tests", () => {
+describe("getBreedsHandler() lambda tests", () => {
   beforeEach(() => {});
   afterEach(() => {});
 
