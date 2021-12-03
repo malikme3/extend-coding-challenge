@@ -1,15 +1,13 @@
-export interface Breeds {
-  breeds: string[]
-}
-// object definition Lambda response
-export interface GetBreedsResponse {
+// response for front-end client
+export interface BreedsResponse {
   statusCode: number
-  body: Breeds
+  body: Breeds | string
   message?: string
 }
-// object definition from API response
+
+// response from external API package
 export interface BreedsApiResponse {
-  message: Message
+  message: string | Message
   status: string
   code?: number
 }
@@ -17,7 +15,9 @@ export interface BreedsApiResponse {
 export interface Message {
   [key: string]: string[]
 }
-
+export interface Breeds {
+  breeds: string[]
+}
 export interface ParamStore {
   [key: string]: string
 }

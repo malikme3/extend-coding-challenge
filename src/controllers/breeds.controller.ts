@@ -1,4 +1,4 @@
-import { Breeds, GetBreedsResponse } from '../domain/breed.domain'
+import { Breeds, BreedsResponse } from '../domain/breed.domain'
 import { BreedsService } from '../services/breeds.service'
 import { ErrorService } from '../services/errors.service'
 import { InitService } from '../services/init.service'
@@ -11,7 +11,7 @@ export class BreedsController {
   }
 
   // TODO: request params validation for requests
-  async getBreeds(): Promise<GetBreedsResponse | Error> {
+  async getBreeds(): Promise<BreedsResponse | Error> {
     try {
       // API call to get breeds list
       const breedsResponse = await new BreedsService().getBreeds()
@@ -42,8 +42,28 @@ export class BreedsController {
     }
   }
 
+  async getRandomBreed(): Promise<BreedsResponse | Error> {
+    try {
+      // API call to get random breed
+      const randomBreedsResponse = await new BreedsService().getRandomBreed()
+
+      // not found case
+      if (!randomBreedsResponse || Object.keys(randomBreedsResponse).length < 1) {
+        return ErrorService.notFoundError('RandomBreed')
+      }
+      return this.successResponse(randomBreedsResponse)
+    } catch (error) {
+      LogsService.log('error', error)
+      // for timeout
+      if (error.toString().includes('timeout')) {
+        return ErrorService.timeoutError(error)
+      }
+      return ErrorService.serverError(error)
+    }
+  }
+
   // success response
-  private successResponse = (breeds: Breeds): GetBreedsResponse => {
+  private successResponse = (breeds: Breeds | string): BreedsResponse => {
     return {
       statusCode: 200,
       body: breeds,

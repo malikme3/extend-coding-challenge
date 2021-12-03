@@ -7,11 +7,15 @@ import { LogsService } from './logs.service'
 // Breeds service to make external api call: GET, POST, PUT, DELETE
 export class BreedsService {
   async getBreeds(): Promise<Message> {
-    return this.apiRequest('api/breeds/list/all')
+    return this.apiRequest('api/breeds/list/all') as Promise<Message>
+  }
+
+  async getRandomBreed(): Promise<string> {
+    return this.apiRequest('api/breeds/image/random') as Promise<string>
   }
 
   // return message data from API response
-  apiRequest = async (endpoint: string): Promise<Message> => {
+  apiRequest = async (endpoint: string): Promise<Message | string> => {
     const host = InitService.getInstance().getParams(BreedsKeys.host)
     const url = `${host}${endpoint}`
     LogsService.log('info', `api url: ${url}`)

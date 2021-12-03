@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
-import { getBreedsHandler } from '../../handlers/breeds.handler'
-import { GetBreedsResponse } from '../../domain/breed.domain'
+import { getBreedsHandler, getRandomBreedHandler } from '../../handlers/breeds.handler'
+import { BreedsResponse } from '../../domain/breed.domain'
 import context = require('aws-lambda-mock-context')
 
 jest.mock('node-fetch')
@@ -35,7 +35,7 @@ describe('getBreedsHandler() lambda tests', () => {
         return mockApiData
       },
     })
-    const { statusCode, body }: GetBreedsResponse = await getBreedsHandler({}, ctx, {} as any)
+    const { statusCode, body }: BreedsResponse = await getBreedsHandler({}, ctx, {} as any)
     expect(statusCode).toBe(200)
     expect(mockResponse).toMatchObject(body)
   })
@@ -46,7 +46,7 @@ describe('getBreedsHandler() lambda tests', () => {
         return []
       },
     })
-    const { statusCode }: GetBreedsResponse = await getBreedsHandler({}, ctx, {} as any)
+    const { statusCode }: BreedsResponse = await getBreedsHandler({}, ctx, {} as any)
     expect(statusCode).toBe(404)
   })
   it('should return server error response   ', async () => {
@@ -55,7 +55,7 @@ describe('getBreedsHandler() lambda tests', () => {
         throw new Error('Server is down')
       },
     })
-    const { statusCode, message }: GetBreedsResponse = await getBreedsHandler({}, ctx, {} as any)
+    const { statusCode, message }: BreedsResponse = await getBreedsHandler({}, ctx, {} as any)
     expect(statusCode).toBe(500)
     expect(message).toBe('request failed due to Error: Server is down')
   })
@@ -65,12 +65,24 @@ describe('getBreedsHandler() lambda tests', () => {
         throw new Error('timeout')
       },
     })
-    const { statusCode, message }: GetBreedsResponse = await await getBreedsHandler(
-      {},
-      ctx,
-      {} as any,
-    )
+    const { statusCode, message }: BreedsResponse = await await getBreedsHandler({}, ctx, {} as any)
     expect(statusCode).toBe(408)
     expect('request failed due to Error: timeout').toBe(message)
+  })
+})
+
+describe('random-get handler', () => {
+  const mockPayload = {}
+  beforeEach(() => {
+    mockedFetch.mockReturnValueOnce({
+      json: () => {
+        return mockPayload
+      },
+    })
+  })
+
+  it('returns payload from fetch request', async () => {
+    const response: any = await getRandomBreedHandler({} as any, ctx)
+    expect(response.statusCode).toBe(404)
   })
 })
