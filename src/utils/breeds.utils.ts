@@ -1,4 +1,5 @@
 import { Context } from "aws-lambda";
+import { ErrorService } from "../services/errors.service";
 import { LogsService } from "../services/logs.service";
 
 export class CommonUtils {
@@ -6,9 +7,11 @@ export class CommonUtils {
     const timer = setTimeout(() => {
       LogsService.log(
         "warn",
-        `${context.functionName} API is going to timeout in 3 seconds!`
+        `${context.functionName} API is going to timeout in 1 seconds!`
       );
-    }, context.getRemainingTimeInMillis() - 3 * 1000);
+      // throwing timeout error. Manually handling  before lambda timeout happens
+      throw ErrorService.timeoutError("Lambda will be time out in 1 seconds.");
+    }, context.getRemainingTimeInMillis() - 1 * 1000);
     return timer;
   }
 }

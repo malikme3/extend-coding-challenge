@@ -23,20 +23,11 @@ const getBreedsHandler: Handler = async (
     );
   } catch (error) {
     LogsService.log("error", `api: ${context.functionName}, error:${error}`);
-    //for timeout
-    if (error.toString().includes("timeout")) {
-      getBreedsResponse = {
-        statusCode: 408,
-        body: `lambda timeout error: ${error}` as any,
-        message: "failed",
-      };
-    } else {
-      getBreedsResponse = {
-        statusCode: error.code || 500,
-        body: error.message || error,
-        message: "failed",
-      };
-    }
+    getBreedsResponse = {
+      statusCode: error.code || 500,
+      body: error.message || error,
+      message: "failed",
+    };
   } finally {
     clearTimeout(timer);
   }

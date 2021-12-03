@@ -7,7 +7,7 @@ const mockedFetch: jest.Mock = fetch as any;
 const ctx = context();
 jest.mock("node-fetch");
 
-describe("getBreedsHandler() lambda tests", () => {
+xdescribe("getBreedsHandler() lambda tests", () => {
   beforeEach(() => {});
   afterEach(() => {});
 
@@ -52,6 +52,19 @@ describe("getBreedsHandler() lambda tests", () => {
     );
     expect(statusCode).toBe(500);
     expect(message).toBe("request failed due to Error: Server is down");
+  });
+  it("timeout test", async () => {
+    mockedFetch.mockReturnValueOnce({
+      json: () => {
+        throw new Error("timeout");
+      },
+    });
+    const {
+      statusCode,
+      message,
+    }: GetBreedsResponse = await await getBreedsHandler({}, ctx, {} as any);
+    expect(statusCode).toBe(408);
+    expect("request failed due to Error: timeout").toBe(message);
   });
 });
 

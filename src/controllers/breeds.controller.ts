@@ -35,7 +35,12 @@ export class BreedsController {
       return this.successResponse({ breeds });
     } catch (error) {
       LogsService.log("error", error);
-      return ErrorService.serverError(error);
+      //for timeout
+      if (error.toString().includes("timeout")) {
+        return ErrorService.timeoutError(error);
+      } else {
+        return ErrorService.serverError(error);
+      }
     }
   }
   // success response
