@@ -76,27 +76,26 @@ dist
 configs
 src
 ├── controllers
-│ └── breeds.controller.ts
+│   └── breeds.controller.ts
 ├── domain
-│ └── breed.domain.ts
+│   └── breed.domain.ts
 ├── enums
-│ └── common.enums.ts
+│   └── common.enums.ts
 ├── handlers
-│ └── breeds.handler.ts
+│   ├── get-breeds.handler.ts
+│   └── get-random-breed.handler.ts
 ├── lambdas
-│ ├── index.ts
-│ ├── mock-events
-│ │ └── default.ts
-│ ├── random-get.test.ts
-│ ├── random-get.ts
-│ └── types.ts
+│   ├── index.ts
+│   └── mock-events
+│       └── default.ts
 ├── services
-│ ├── breeds.service.ts
-│ ├── errors.service.ts
-│ ├── init.service.ts
-│ └── logs.service.ts
+│   ├── breeds.service.ts
+│   ├── errors.service.ts
+│   ├── init.service.ts
+│   └── logs.service.ts
 ├── tests
-│ └── handlers
-│ ├── breeds-get.test.ts
+│   └── handlers
+│       ├── get-breeds.handler.test.ts
+│       └── get-random-breed.handler.test.ts
 └── utils
-└── breeds.utils.ts
+    └── breeds.utils.ts
