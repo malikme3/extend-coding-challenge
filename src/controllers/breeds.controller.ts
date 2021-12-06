@@ -1,17 +1,19 @@
-import { Breeds, BreedsResponse, ErrorResponse } from '../domain/breed.domain'
+import { Breed, Breeds, BreedsResponse, ErrorResponse } from '../domain/breed.domain'
 import { BreedsService } from '../services/breeds.service'
 import { ErrorService } from '../services/errors.service'
 import { InitService } from '../services/init.service'
 import { LogsService } from '../services/logs.service'
 
 export class BreedsController {
+  private statusCode = 200
+
   constructor() {
     // Initialize init service
     InitService.getInstance()
   }
 
   // TODO: request params validation for requests
-  async getBreeds(): Promise<BreedsResponse | ErrorResponse> {
+  async getBreeds(): Promise<BreedsResponse<Breeds> | ErrorResponse> {
     try {
       // API call to get breeds list
       const breedsResponse = await new BreedsService().getBreeds()
@@ -31,7 +33,7 @@ export class BreedsController {
         },
         [], // default/initial value
       )
-      return this.successResponse({ breeds })
+      return this.successResponse<Breeds>(breeds)
     } catch (error) {
       LogsService.log('error', error)
       // for timeout
@@ -42,7 +44,7 @@ export class BreedsController {
     }
   }
 
-  async getRandomBreed(): Promise<BreedsResponse | ErrorResponse> {
+  async getRandomBreed(): Promise<BreedsResponse<Breed> | ErrorResponse> {
     try {
       // API call to get random breed
       const randomBreedsResponse = await new BreedsService().getRandomBreed()
@@ -51,7 +53,7 @@ export class BreedsController {
       if (!randomBreedsResponse || Object.keys(randomBreedsResponse).length < 1) {
         return ErrorService.notFoundError('RandomBreed')
       }
-      return this.successResponse(randomBreedsResponse)
+      return this.successResponse<Breed>(randomBreedsResponse)
     } catch (error) {
       LogsService.log('error', error)
       // for timeout
@@ -63,9 +65,10 @@ export class BreedsController {
   }
 
   // success response
-  private successResponse = (breeds: Breeds | string): BreedsResponse => {
+  private successResponse<T>(breeds: T): BreedsResponse<T> {
+    const { statusCode } = this
     return {
-      statusCode: 200,
+      statusCode,
       body: breeds,
       status: 'success',
     }

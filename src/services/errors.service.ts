@@ -5,7 +5,7 @@ export class ErrorService extends Error {
   static serverError(error: string): ErrorResponse {
     return {
       statusCode: 500,
-      message: `request failed due to ${error}`,
+      body: `request failed due to ${error}`,
       status: `failed`,
     }
   }
@@ -13,7 +13,7 @@ export class ErrorService extends Error {
   static notFoundError(entity: string): ErrorResponse {
     return {
       statusCode: 404,
-      message: `${entity} not found`,
+      body: `${entity} not found`,
       status: `failed`,
     }
   }
@@ -21,7 +21,7 @@ export class ErrorService extends Error {
   static timeoutError(error: string): ErrorResponse {
     return {
       statusCode: 408,
-      message: `request failed due to ${error}`,
+      body: `request failed due to ${error}`,
       status: `failed`,
     }
   }

@@ -15,7 +15,7 @@ export class BreedsService {
   }
 
   // return message data from API response
-  apiRequest = async (endpoint: string): Promise<Message | string> => {
+  private apiRequest = async (endpoint: string): Promise<Message | string> => {
     const host = InitService.getInstance().getParams(BreedsKeys.host)
     const url = `${host}${endpoint}`
     LogsService.log('info', `api url: ${url}`)

@@ -1,28 +1,26 @@
-interface Response {
+// response from external API package
+export interface BreedsApiResponse {
   message: string | Message
   status: 'success' | 'failed'
-}
-export interface ErrorResponse extends Response {
-  statusCode: number
-}
-
-// response from external API package
-export interface BreedsApiResponse extends Response {
   code?: number
-}
-
-// response for front-end client
-export interface BreedsResponse {
-  statusCode: number
-  status: 'success' | 'failed'
-  body: Breeds | string
 }
 export interface Message {
   [key: string]: string[]
 }
-export interface Breeds {
-  breeds: string[]
+
+// response for front-end client
+// T generic type for  Breeds, Breed and error string
+export type T = Breed | Breeds | string
+export interface BreedsResponse<T> {
+  statusCode: number
+  status: 'success' | 'failed'
+  body: T
 }
+export type Breed = string
+export type Breeds = Breed[]
+// error response definition
+export type ErrorResponse = BreedsResponse<string>
+// params store/secret manger definition
 export interface ParamStore {
   [key: string]: string
 }
